@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container" style="max-width: 500px;">
+    <div class="card mt-4">
+        <div class="card-header text-center">
+            <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Create Account</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Register" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="firstName" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="lastName" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required />
+                    <small class="text-muted">Password must be at least 6 characters with uppercase, lowercase, and digit.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" name="confirmPassword" class="form-control" required />
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <p class="small mb-0">Already have an account? <a asp-action="Login">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>

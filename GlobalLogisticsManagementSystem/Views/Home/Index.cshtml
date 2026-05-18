@@ -1,0 +1,118 @@
+﻿@model IEnumerable<GlobalLogisticsManagementSystem.Models.ServiceRequest>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h4 class="mb-3" style="color: #1a2c3e; font-weight: 600;">Dashboard</h4>
+        <p class="text-muted small">Welcome back. Here's what's happening with your logistics operations.</p>
+    </div>
+</div>
+
+<!-- Statistics Row -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-users stat-icon"></i>
+            <div class="stat-number">@ViewBag.TotalClients</div>
+            <div class="stat-label">Total Clients</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-file-contract stat-icon"></i>
+            <div class="stat-number">@ViewBag.TotalContracts</div>
+            <div class="stat-label">Total Contracts</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-check-circle stat-icon"></i>
+            <div class="stat-number">@ViewBag.ActiveContracts</div>
+            <div class="stat-label">Active Contracts</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-truck stat-icon"></i>
+            <div class="stat-number">@ViewBag.TotalServiceRequests</div>
+            <div class="stat-label">Service Requests</div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Requests -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-clock me-2"></i>Recent Service Requests</span>
+                <a asp-controller="ServiceRequests" asp-action="Create" class="btn btn-sm btn-primary">+ New Request</a>
+            </div>
+            <div class="card-body p-0">
+                @if (Model != null && Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr><th>ID</th><th>Client</th><th>Description</th><th>Amount (ZAR)</th><th>Status</th><th>Date</th></tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>#@item.ServiceRequestId</td>
+                                        <td>@item.Contract?.Client?.Name</td>
+                                        <td>@item.Description</td>
+                                        <td>R @item.AmountZAR.ToString("N2")</td>
+                                        <td><span class="badge @(item.Status == "Pending" ? "badge-pending" : "badge-completed")">@item.Status</span></td>
+                                        <td>@item.RequestDate.ToString("dd MMM yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <p class="text-muted small mb-0">No service requests found.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-md-4 mb-3">
+        <a asp-controller="Contracts" asp-action="Create" class="text-decoration-none">
+            <div class="quick-action-card">
+                <i class="fas fa-plus-circle"></i>
+                <h5>New Contract</h5>
+                <p>Create a logistics contract</p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4 mb-3">
+        <a asp-controller="ServiceRequests" asp-action="Create" class="text-decoration-none">
+            <div class="quick-action-card">
+                <i class="fas fa-truck"></i>
+                <h5>Service Request</h5>
+                <p>Raise a service request</p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4 mb-3">
+        <a asp-controller="Clients" asp-action="Index" class="text-decoration-none">
+            <div class="quick-action-card">
+                <i class="fas fa-users"></i>
+                <h5>Manage Clients</h5>
+                <p>View client database</p>
+            </div>
+        </a>
+    </div>
+</div>

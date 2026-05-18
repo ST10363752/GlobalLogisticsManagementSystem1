@@ -1,0 +1,96 @@
+﻿@model GlobalLogisticsManagementSystem.Models.ServiceRequest
+
+@{
+    ViewData["Title"] = "Create Service Request";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Create New Service Request</h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <strong>Current Exchange Rate:</strong> 1 USD = <strong id="liveRate">@ViewBag.CurrentRate</strong> ZAR
+                <br />
+                <small>Note: Only contracts with <strong>Active</strong> status can create service requests.</small>
+            </div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="ContractId" class="form-label">Contract</label>
+                    <select asp-for="ContractId" class="form-select" asp-items="@(ViewBag.ContractId as SelectList)">
+                        <option value="">-- Select Contract --</option>
+                    </select>
+                    <span asp-validation-for="ContractId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="AmountUSD" class="form-label">Amount (USD)</label>
+                    <input asp-for="AmountUSD" class="form-control" id="AmountUSD" />
+                    <span asp-validation-for="AmountUSD" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Amount (ZAR) - Auto Calculated</label>
+                    <input type="text" id="AmountZAR" class="form-control" readonly style="background-color: #e9ecef;" />
+                </div>
+
+                <input type="hidden" asp-for="AmountZAR" id="hdnAmountZAR" />
+                <input type="hidden" asp-for="ExchangeRateUsed" id="hdnExchangeRate" />
+                <input type="hidden" asp-for="Status" value="Pending" />
+                <input type="hidden" asp-for="RequestDate" />
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Get live exchange rate from server
+            $.get('/ServiceRequests/GetExchangeRateJson', function(data) {
+                var exchangeRate = data.rate;
+                $('#liveRate').text(exchangeRate.toFixed(2));
+                $('#hdnExchangeRate').val(exchangeRate);
+
+                // Calculate ZAR when USD changes
+                $('#AmountUSD').on('keyup change', function() {
+                    var usd = parseFloat($(this).val()) || 0;
+                    var zar = usd * exchangeRate;
+                    $('#AmountZAR').val('R ' + zar.toFixed(2));
+                    $('#hdnAmountZAR').val(zar.toFixed(2));
+                });
+            }).fail(function() {
+                // Fallback rate if API fails
+                var exchangeRate = 19.00;
+                $('#liveRate').text(exchangeRate.toFixed(2));
+                $('#hdnExchangeRate').val(exchangeRate);
+
+                $('#AmountUSD').on('keyup change', function() {
+                    var usd = parseFloat($(this).val()) || 0;
+                    var zar = usd * exchangeRate;
+                    $('#AmountZAR').val('R ' + zar.toFixed(2));
+                    $('#hdnAmountZAR').val(zar.toFixed(2));
+                });
+            });
+        });
+    </script>
+}
