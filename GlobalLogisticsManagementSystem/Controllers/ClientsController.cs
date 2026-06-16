@@ -1,32 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GlobalLogisticsManagementSystem.Data;
 using GlobalLogisticsManagementSystem.Models;
+using GlobalLogisticsManagementSystem.Services;
 
 namespace GlobalLogisticsManagementSystem.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApiService _apiService;
 
-        public ClientsController(ApplicationDbContext context)
+        public ClientsController(IApiService apiService)
         {
-            _context = context;
+            _apiService = apiService;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clients.ToListAsync());
+            var clients = await _apiService.GetClientsAsync();
+            return View(clients);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null) return NotFound();
-
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.ClientId == id);
+            var client = await _apiService.GetClientByIdAsync(id);
             if (client == null) return NotFound();
-
             return View(client);
         }
 
@@ -37,57 +33,43 @@ namespace GlobalLogisticsManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientId,Name,ContactDetails,Region")] Client client)
+        public async Task<IActionResult> Create(Client client)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
+                await _apiService.CreateClientAsync(client);
+                TempData["Success"] = "Client created successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(client);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null) return NotFound();
-
-            var client = await _context.Clients.FindAsync(id);
+            var client = await _apiService.GetClientByIdAsync(id);
             if (client == null) return NotFound();
             return View(client);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClientId,Name,ContactDetails,Region")] Client client)
+        public async Task<IActionResult> Edit(int id, Client client)
         {
             if (id != client.ClientId) return NotFound();
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.ClientId)) return NotFound();
-                    else throw;
-                }
+                await _apiService.UpdateClientAsync(id, client);
+                TempData["Success"] = "Client updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(client);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null) return NotFound();
-
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.ClientId == id);
+            var client = await _apiService.GetClientByIdAsync(id);
             if (client == null) return NotFound();
-
             return View(client);
         }
 
@@ -95,18 +77,9 @@ namespace GlobalLogisticsManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-                await _context.SaveChangesAsync();
-            }
+            await _apiService.DeleteClientAsync(id);
+            TempData["Success"] = "Client deleted successfully!";
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClientExists(int id)
-        {
-            return _context.Clients.Any(e => e.ClientId == id);
         }
     }
 }

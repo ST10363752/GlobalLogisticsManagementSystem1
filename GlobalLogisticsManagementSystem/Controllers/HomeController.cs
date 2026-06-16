@@ -1,35 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GlobalLogisticsManagementSystem.Data;
+using GlobalLogisticsManagementSystem.Services;
 
 namespace GlobalLogisticsManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApiService _apiService;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IApiService apiService)
         {
-            _context = context;
+            _apiService = apiService;
         }
 
         public async Task<IActionResult> Index()
         {
-            // Get statistics for dashboard
-            ViewBag.TotalClients = await _context.Clients.CountAsync();
-            ViewBag.TotalContracts = await _context.Contracts.CountAsync();
-            ViewBag.ActiveContracts = await _context.Contracts.CountAsync(c => c.Status == "Active");
-            ViewBag.TotalServiceRequests = await _context.ServiceRequests.CountAsync();
-            ViewBag.PendingRequests = await _context.ServiceRequests.CountAsync(s => s.Status == "Pending");
+            var clients = await _apiService.GetClientsAsync();
+            var contracts = await _apiService.GetContractsAsync();
+            var requests = await _apiService.GetServiceRequestsAsync();
 
-            // Get recent service requests
-            var recentRequests = await _context.ServiceRequests
-                .Include(s => s.Contract)
-                .ThenInclude(c => c != null ? c.Client : null)
-                .OrderByDescending(s => s.RequestDate)
-                .Take(5)
-                .ToListAsync();
+            ViewBag.TotalClients = clients.Count();
+            ViewBag.TotalContracts = contracts.Count();
+            ViewBag.ActiveContracts = contracts.Count(c => c.Status == "Active");
+            ViewBag.TotalServiceRequests = requests.Count();
+            ViewBag.PendingRequests = requests.Count(r => r.Status == "Pending");
 
+            var recentRequests = requests.OrderByDescending(r => r.RequestDate).Take(5).ToList();
             return View(recentRequests);
         }
 
