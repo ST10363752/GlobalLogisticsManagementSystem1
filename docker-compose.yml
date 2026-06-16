@@ -1,0 +1,55 @@
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: glms-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Your_password123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - glms-network
+
+  # GLMS API Backend
+  glms-api:
+    build:
+      context: .
+      dockerfile: GLMS.API/Dockerfile
+    container_name: glms-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=GLMS_API_DB;User=sa;Password=Your_password123;TrustServerCertificate=true;
+    ports:
+      - "5000:80"
+      - "5001:443"
+    depends_on:
+      - sqlserver
+    networks:
+      - glms-network
+
+  # GLMS MVC Frontend
+  glms-mvc:
+    build:
+      context: .
+      dockerfile: GlobalLogisticsManagementSystem/Dockerfile
+    container_name: glms-mvc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:80"
+      - "8081:443"
+    depends_on:
+      - glms-api
+    networks:
+      - glms-network
+
+networks:
+  glms-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
