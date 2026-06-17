@@ -7,23 +7,26 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">Create New Service Request</h5>
+            <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Create New Service Request</h5>
         </div>
         <div class="card-body">
             @if (TempData["Error"] != null)
             {
-                <div class="alert alert-danger">
-                    @TempData["Error"]
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> <strong>Error:</strong> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             }
 
             <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
                 <strong>Note:</strong> Only contracts with <strong>Active</strong> status can create service requests.
                 <br />
                 <strong>Exchange Rate:</strong> 1 USD = 19.00 ZAR
             </div>
 
             <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="mb-3">
@@ -36,29 +39,40 @@
 
                 <div class="mb-3">
                     <label asp-for="Description" class="form-label">Description</label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter service description..."></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="AmountUSD" class="form-label">Amount (USD)</label>
-                    <input asp-for="AmountUSD" class="form-control" id="AmountUSD" />
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input asp-for="AmountUSD" class="form-control" id="AmountUSD" placeholder="0.00" />
+                    </div>
                     <span asp-validation-for="AmountUSD" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Amount (ZAR)</label>
-                    <input type="text" id="AmountZAR" class="form-control" readonly />
+                    <label class="form-label">Amount (ZAR) - Auto Calculated</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R</span>
+                        <input type="text" id="AmountZAR" class="form-control" readonly style="background-color: #e9ecef;" />
+                    </div>
+                    <small class="text-muted">Amount in South African Rand (auto-calculated based on exchange rate)</small>
                 </div>
 
-                <input type="hidden" asp-for="AmountZAR" />
+                <input type="hidden" asp-for="AmountZAR" id="hdnAmountZAR" />
                 <input type="hidden" asp-for="ExchangeRateUsed" value="19.00" />
                 <input type="hidden" asp-for="Status" value="Pending" />
                 <input type="hidden" asp-for="RequestDate" />
 
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Create
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Back to List
+                    </a>
                 </div>
             </form>
         </div>
@@ -67,11 +81,26 @@
 
 @section Scripts {
     <script>
-        document.getElementById("AmountUSD").addEventListener("input", function() {
-            var usd = parseFloat(this.value) || 0;
-            var zar = usd * 19.00;
-            document.getElementById("AmountZAR").value = zar.toFixed(2);
-            document.querySelector("input[name='AmountZAR']").value = zar.toFixed(2);
+        document.addEventListener("DOMContentLoaded", function() {
+            var exchangeRate = 19.00;
+            var usdInput = document.getElementById("AmountUSD");
+            var zarDisplay = document.getElementById("AmountZAR");
+            var hiddenZar = document.getElementById("hdnAmountZAR");
+
+            function calculateZAR() {
+                var usd = parseFloat(usdInput.value) || 0;
+                var zar = usd * exchangeRate;
+                zarDisplay.value = zar.toFixed(2);
+                hiddenZar.value = zar.toFixed(2);
+            }
+
+            if (usdInput) {
+                usdInput.addEventListener("input", calculateZAR);
+                usdInput.addEventListener("change", calculateZAR);
+            }
+
+            // Initial calculation
+            calculateZAR();
         });
     </script>
 }

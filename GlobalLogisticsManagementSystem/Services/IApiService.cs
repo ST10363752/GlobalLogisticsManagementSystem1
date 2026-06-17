@@ -4,14 +4,14 @@ namespace GlobalLogisticsManagementSystem.Services
 {
     public interface IApiService
     {
-        // Clients
+        // ========== CLIENTS ==========
         Task<List<Client>> GetClientsAsync();
         Task<Client?> GetClientByIdAsync(int id);
         Task<Client> CreateClientAsync(Client client);
         Task<bool> UpdateClientAsync(int id, Client client);
         Task<bool> DeleteClientAsync(int id);
 
-        // Contracts
+        // ========== CONTRACTS ==========
         Task<List<Contract>> GetContractsAsync();
         Task<Contract?> GetContractByIdAsync(int id);
         Task<List<Contract>> FilterContractsAsync(DateTime? startDate, DateTime? endDate, string? status);
@@ -19,7 +19,7 @@ namespace GlobalLogisticsManagementSystem.Services
         Task<bool> UpdateContractStatusAsync(int id, string status);
         Task<bool> DeleteContractAsync(int id);
 
-        // Service Requests
+        // ========== SERVICE REQUESTS ==========
         Task<List<ServiceRequest>> GetServiceRequestsAsync();
         Task<ServiceRequest?> GetServiceRequestByIdAsync(int id);
         Task<bool> CanCreateServiceRequestAsync(int contractId);

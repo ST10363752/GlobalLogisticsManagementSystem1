@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalLogisticsManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260518072729_InitialCreate")]
+    [Migration("20260617201753_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -130,22 +130,22 @@ namespace GlobalLogisticsManagementSystem.Migrations
                         new
                         {
                             ClientId = 1,
-                            ContactDetails = "contact@techmove.com",
-                            Name = "TechMove Logistics",
+                            ContactDetails = "info@apexfreight.com",
+                            Name = "Apex Freight Solutions",
                             Region = "North America"
                         },
                         new
                         {
                             ClientId = 2,
-                            ContactDetails = "info@globalshipping.com",
-                            Name = "Global Shipping Inc",
+                            ContactDetails = "contact@pinnaclelogistics.com",
+                            Name = "Pinnacle Logistics Group",
                             Region = "Europe"
                         },
                         new
                         {
                             ClientId = 3,
-                            ContactDetails = "sales@asiafreight.com",
-                            Name = "Asia Freight Solutions",
+                            ContactDetails = "sales@horizoncargo.com",
+                            Name = "Horizon Cargo Services",
                             Region = "Asia Pacific"
                         });
                 });
@@ -195,36 +195,36 @@ namespace GlobalLogisticsManagementSystem.Migrations
                         {
                             ContractId = 1,
                             ClientId = 1,
-                            EndDate = new DateTime(2026, 11, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(143),
+                            EndDate = new DateTime(2026, 12, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8295),
                             ServiceLevel = "Premium",
-                            StartDate = new DateTime(2025, 11, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(114),
+                            StartDate = new DateTime(2025, 12, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8261),
                             Status = "Active"
                         },
                         new
                         {
                             ContractId = 2,
                             ClientId = 1,
-                            EndDate = new DateTime(2026, 4, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(150),
+                            EndDate = new DateTime(2026, 5, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8303),
                             ServiceLevel = "Standard",
-                            StartDate = new DateTime(2025, 5, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(149),
+                            StartDate = new DateTime(2025, 6, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8302),
                             Status = "Expired"
                         },
                         new
                         {
                             ContractId = 3,
                             ClientId = 2,
-                            EndDate = new DateTime(2026, 8, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(154),
+                            EndDate = new DateTime(2026, 9, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8306),
                             ServiceLevel = "Express",
-                            StartDate = new DateTime(2026, 2, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(152),
+                            StartDate = new DateTime(2026, 3, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8305),
                             Status = "Active"
                         },
                         new
                         {
                             ContractId = 4,
                             ClientId = 3,
-                            EndDate = new DateTime(2026, 10, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(156),
+                            EndDate = new DateTime(2026, 11, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8309),
                             ServiceLevel = "Standard",
-                            StartDate = new DateTime(2026, 4, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(156),
+                            StartDate = new DateTime(2026, 5, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8308),
                             Status = "Draft"
                         });
                 });
@@ -275,9 +275,9 @@ namespace GlobalLogisticsManagementSystem.Migrations
                             AmountUSD = 5000m,
                             AmountZAR = 95000m,
                             ContractId = 1,
-                            Description = "Urgent shipment from NY to London",
+                            Description = "Express cargo shipment - New York to London",
                             ExchangeRateUsed = 19.00m,
-                            RequestDate = new DateTime(2026, 5, 8, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(211),
+                            RequestDate = new DateTime(2026, 6, 7, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8362),
                             Status = "Completed"
                         },
                         new
@@ -286,9 +286,9 @@ namespace GlobalLogisticsManagementSystem.Migrations
                             AmountUSD = 2500m,
                             AmountZAR = 47500m,
                             ContractId = 1,
-                            Description = "Regular container shipping",
+                            Description = "Regular container freight",
                             ExchangeRateUsed = 19.00m,
-                            RequestDate = new DateTime(2026, 5, 15, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(220),
+                            RequestDate = new DateTime(2026, 6, 14, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8371),
                             Status = "Pending"
                         },
                         new
@@ -297,9 +297,9 @@ namespace GlobalLogisticsManagementSystem.Migrations
                             AmountUSD = 12000m,
                             AmountZAR = 228000m,
                             ContractId = 3,
-                            Description = "Express delivery - Electronics",
+                            Description = "Urgent air freight - Electronics",
                             ExchangeRateUsed = 19.00m,
-                            RequestDate = new DateTime(2026, 5, 17, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(222),
+                            RequestDate = new DateTime(2026, 6, 16, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8374),
                             Status = "Pending"
                         });
                 });
