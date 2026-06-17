@@ -231,9 +231,9 @@ namespace GlobalLogisticsManagementSystem.Migrations
                 columns: new[] { "ClientId", "ContactDetails", "Name", "Region" },
                 values: new object[,]
                 {
-                    { 1, "contact@techmove.com", "TechMove Logistics", "North America" },
-                    { 2, "info@globalshipping.com", "Global Shipping Inc", "Europe" },
-                    { 3, "sales@asiafreight.com", "Asia Freight Solutions", "Asia Pacific" }
+                    { 1, "info@apexfreight.com", "Apex Freight Solutions", "North America" },
+                    { 2, "contact@pinnaclelogistics.com", "Pinnacle Logistics Group", "Europe" },
+                    { 3, "sales@horizoncargo.com", "Horizon Cargo Services", "Asia Pacific" }
                 });
 
             migrationBuilder.InsertData(
@@ -241,10 +241,10 @@ namespace GlobalLogisticsManagementSystem.Migrations
                 columns: new[] { "ContractId", "ClientId", "EndDate", "ServiceLevel", "SignedAgreementFileName", "SignedAgreementPath", "StartDate", "Status" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2026, 11, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(143), "Premium", null, null, new DateTime(2025, 11, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(114), "Active" },
-                    { 2, 1, new DateTime(2026, 4, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(150), "Standard", null, null, new DateTime(2025, 5, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(149), "Expired" },
-                    { 3, 2, new DateTime(2026, 8, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(154), "Express", null, null, new DateTime(2026, 2, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(152), "Active" },
-                    { 4, 3, new DateTime(2026, 10, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(156), "Standard", null, null, new DateTime(2026, 4, 18, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(156), "Draft" }
+                    { 1, 1, new DateTime(2026, 12, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8295), "Premium", null, null, new DateTime(2025, 12, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8261), "Active" },
+                    { 2, 1, new DateTime(2026, 5, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8303), "Standard", null, null, new DateTime(2025, 6, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8302), "Expired" },
+                    { 3, 2, new DateTime(2026, 9, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8306), "Express", null, null, new DateTime(2026, 3, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8305), "Active" },
+                    { 4, 3, new DateTime(2026, 11, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8309), "Standard", null, null, new DateTime(2026, 5, 17, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8308), "Draft" }
                 });
 
             migrationBuilder.InsertData(
@@ -252,9 +252,9 @@ namespace GlobalLogisticsManagementSystem.Migrations
                 columns: new[] { "ServiceRequestId", "AmountUSD", "AmountZAR", "ContractId", "Description", "ExchangeRateUsed", "RequestDate", "Status" },
                 values: new object[,]
                 {
-                    { 1, 5000m, 95000m, 1, "Urgent shipment from NY to London", 19.00m, new DateTime(2026, 5, 8, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(211), "Completed" },
-                    { 2, 2500m, 47500m, 1, "Regular container shipping", 19.00m, new DateTime(2026, 5, 15, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(220), "Pending" },
-                    { 3, 12000m, 228000m, 3, "Express delivery - Electronics", 19.00m, new DateTime(2026, 5, 17, 9, 27, 29, 406, DateTimeKind.Local).AddTicks(222), "Pending" }
+                    { 1, 5000m, 95000m, 1, "Express cargo shipment - New York to London", 19.00m, new DateTime(2026, 6, 7, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8362), "Completed" },
+                    { 2, 2500m, 47500m, 1, "Regular container freight", 19.00m, new DateTime(2026, 6, 14, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8371), "Pending" },
+                    { 3, 12000m, 228000m, 3, "Urgent air freight - Electronics", 19.00m, new DateTime(2026, 6, 16, 22, 17, 53, 94, DateTimeKind.Local).AddTicks(8374), "Pending" }
                 });
 
             migrationBuilder.CreateIndex(

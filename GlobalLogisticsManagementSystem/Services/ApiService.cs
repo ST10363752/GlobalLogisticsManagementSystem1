@@ -14,17 +14,15 @@ namespace GlobalLogisticsManagementSystem.Services
         {
             _httpClient = httpClient;
 
-            // Check if running in Docker (environment variable can be set)
+            // Check if running in Docker
             var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
             if (isDocker)
             {
-                // Use Docker service name when running in containers
                 _apiBaseUrl = "http://glms-api/api/";
             }
             else
             {
-                // Use localhost when running normally
                 _apiBaseUrl = "https://localhost:7095/api/";
             }
 
